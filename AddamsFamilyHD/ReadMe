@@ -1,0 +1,200 @@
+Short:    HD-Installer for Addams Family
+Author:   Codetapper/Action (codetapper@hotmail.com),
+          DJ Mike (djmike@crystalmike.com)
+Version:  2.0
+Type:     game/patch
+
+This patch applies to "Addams Family" © 1992 Ocean - 1 disk.
+Thanks to Carlo Pirri and Chris Vella for sending the originals!
+
+Now includes "The Backgrounds Edition" - an enhanced version by DJ Mike that
+restores the backgrounds that were omitted from the original release.
+
+When installing, you will be asked if you want to install the standard
+version, or The Backgrounds Edition. The latter can be installed using the
+original game disk - the extra files needed are contained in the install.
+
+If you are upgrading from v1.0-1.3 you will need to reinstall.
+
+REQUIREMENTS:
+- Slave requires WHDLoad V20+.
+- Game requires 512k chip mem (+0.9Mb other memory for preload option)
+- The Backgrounds Edition requires 768k chip mem for OCS or 2MB for AGA
+
+FEATURES:
+- Full load from HD with real files
+- Backgrounds restored - install "The Backgrounds Edition" to use.
+  Select mode from splash screen or with CUSTOM2.
+  AGA Parallax requires A1200/4000, and 2MB chip memory config selected
+  OCS Scroll With Level requires at least 768k chip memory config selected
+- Rob Northen Copylock removed
+- Access fault fixed
+- Self-modifying code removed (caused Gomez sprite glitches)
+- Can run with caches for better speed
+- Empty/CPU-dependent loops removed
+- Removed anti-Action Replay dodgy copperlist entries
+- Music player DMA delay fixed
+- Draw code optimisations added
+- Missing blitter waits added
+- Decruncher and stack moved to fast memory if available
+- Instructions included
+- Trainers: Infinite lives, hearts and in-game keys:
+  Help to toggle infinite lives, Del to toggle energy,
+  F6 to give Fez, F7 to give speed boots.
+  The screen will flash green when a cheat is enabled and red if disabled.
+- 2 different RomIcons, NewIcons and GlowIcons (all created by Frank!)
+- Quit option (default key is 'F10')
+- Source available: https://github.com/DJ-Mike-101/WHDL-Releases
+
+THE BACKGROUNDS EDITION
+
+Ever since its release in 1992, the Amiga version of this game has lacked
+the backgrounds of its Atari ST, SNES and Megadrive brethren. The reasons
+for this are muddied by time. I gather from talking to James Higgins, the
+original coder, that dropping the backgrounds was very much due to time
+constraint. They had wanted to use the Amiga playfield and sprite hardware
+to scroll the game at 50fps, despite the rest of the game only redrawing at
+25fps or less. They also wanted Gomez to be able to move in front and behind
+scenery. While this is all possible to achieve, the backgrounds became a
+problem. The parallax scroll lagged the rest of the level - it has to happen
+in the redraw code, not hardware, due to the game using a single 32 colour
+playfield. Gomez's sprite can also only be behind the entire level or in
+front of it. With backgrounds, Gomez would disappear entirely! 
+
+Dropping the backgrounds was realistically the fastest path to release even
+if it was not the outcome they wanted - anything else would mean sacrificing
+frame rate, or taking more time to write a better solution. Ocean chose to
+just ship it.
+
+After some investigation, and based on initial finds on an old EAB forum
+thread, I discovered that the code for rendering the backgrounds has been
+buried in the Amiga version all this time - and simply disabled in game.
+In fact, the backgrounds are still used ever so slightly, to draw the title
+options and a couple of other interstitial screens. I had to jig some memory
+about, because they share the same space as the music, but after adjusting
+pointers and reactivating some routines, I was pleasantly surprised to find
+the backgrounds sprung to life, with a half-scrolling parallax effect. But,
+it was immediately apparent this pre-dated the game switching to hardware
+scrolling, because they sure looked janky!
+
+Due to the game using 32 colours on OCS Amigas, it is not possible to have
+the backgrounds scroll independently in their own playfield. Therefore I
+have compromised by having the backgrounds scroll at the same speed as the
+level.
+
+But on AGA Amigas, there are 3 more bitplanes available, which is enough for
+the (mostly 8 colour) backgrounds to scroll at half speed as intended. So if
+you play on an A1200/4000 you will get the full parallax experience!
+
+I have reworked a lot of the code for AGA so the graphics are drawn using
+FMODE 1/32-bit mode for improved performance. Making the parallax scrolling
+work while also retaining the 32 colour foreground requires having 32 copies
+of the background in memory at any time, meaning a lot of careful memory
+management. The game barely fits in the 2MB chip RAM, but it does fit!
+
+Gomez disappearing behind the entire level is still a problem, so that too
+has had a compromise - instead of flipping sprite priority, a stipple is
+applied to the sprite to give the illusion of going behind the scenery.
+
+Various other bugs have been fixed including self-modifying code and missing
+blitter waits, so this really is, hopefully, much closer to what the Amiga
+should have gotten for this classic game.
+
+This is not the end of the road for this project - I have some ideas for
+other improvements I'm going to explore. As they say, watch this space!
+
+Greetings and thanks go out to:
+- dlfrsilver for convincing me to do the project + discussions and testing
+- Codetapper for the previous WHDLoad install
+- Retro1234 for early investigations
+- JOTD for ideas and support
+- aros-sg for AGA parallax discussions
+- AmigaBill for streaming the whole game
+- IndieRetroNews & ZZAP! for articles
+- The Retro Hour & Saberman for featuring in podcast/videos
+
+And thanks to everyone who supported the project from production to release!
+
+--- DJ Mike (14th October 2026)
+
+HISTORY
+
+Version 2.0 (2026-10-14) by DJ Mike:
+- Missing backgrounds restored
+- Self-modifying code removed (caused Gomez sprite glitches)
+- Can run with caches for better speed
+- Uses real files
+- Reduced memory to 512k chip for original game
+- Empty/CPU-dependent loops removed
+- Removed anti-Action Replay dodgy copperlist entries
+- Music player DMA delay fixed
+- Draw code optimisations added
+- Missing blitter waits added
+- Decruncher and stack moved to fast memory if available
+
+Version 1.3:
+- Trainer flash screen code caused bugs in NTSC mode only. Thanks to
+  Frank for the bug report!
+
+CHEAT MODE:
+- Taken from Sweet Cheater by Keith Krellwitz!
+  Enter any of the following for your password:
+
+            FIRST POWER-UP________________________"&1#1#"
+            SECOND POWER-UP_______________________"?1S1M"
+            THIRD POWER-UP________________________"BLSRS"
+            PUGSLEY_______________________________"V121B"
+            WEDNESDAY_____________________________"VD2RL"
+            GRANNY________________________________"V&YKW"
+            FESTER________________________________"VL#R4"
+            GAME ENDING___________________________"#Z6D?"
+
+  To get 4 free lives each time your game is over, walk past the continue
+  door to the left and there is a room where you can collect them.
+  
+  In the hall of rooms, walk left until there is a door above you.
+  Push up to enter a secret room; collect all the stuff in this room
+  and go directly above where you entered this room and press up to
+  enter the other secret room.
+
+  On some versions of the game enter the code `11111' on the password
+  screen for 100 lives.
+
+  For Morticia, use the 3rd power-up code, go to the piano room and
+  wait for the Addams Family music to play.  Now open the self sealed
+  door and finish the last level.
+
+  Pause the game by pressing 'SPACE' and then hit the 'ESC' key.  You
+  will now be in a room with a continue door and an escape door.
+  Instead of choosing one of these options just keep walking left
+  until you come across another room full of extra lives.
+
+WORDS FROM THE AUTHOR v1.0-1.3
+
+The trainer in this game was done the old fashioned way, play the game and
+quit with 5 lives making a dump of memory. Then play again with 4 lives 
+and do a diff on the files! Search for all memory accesses to that location
+and bingo!
+
+I couldn't decide which icon I liked better so I have included all of them
+in the installer. I suggest you rename the icons and have a look to decide
+which you like better!
+
+Greetings to Jean-François Fabre for the original version, Mr Larmer for
+Copylock Decoder, Bored Seal for testing and bug reports, Galahad/Fairlight
+for testing and copperlist advice, Bert for constantly improving WHDLoad,
+Carlo and Chris for being the best original suppliers ever, Frank for 
+awesome icons and finally all Action members!
+
+--- Codetapper/Action (31-Mar-2001)
+
+         Bug report form, full WHDLoad package and other installs:
+                          http://www.whdload.de/
+
+            ________  ________  ________  ____  ________  ________
+           _)       \_)       \_)       \_)   \_)       \_)       \
+   __ ___ /___/     /   /_____/\  /     /     /   /     /   /     /
+  /_//__// \___    /   /     /CT\/     /     /   /     /   /     /
+        /___/     /___      /   /     /_____/___      /___/     /___ __
+            \____/    \____/    \____/          \____/    \____//__//_/
+
