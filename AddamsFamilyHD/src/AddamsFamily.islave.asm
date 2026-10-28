@@ -13,7 +13,7 @@
 
 
 		dc.b	"$VER: "
-.text		dc.b	"Addams Family imager v1.0",10
+.text		dc.b	"Addams Family imager v1.01",10
 		dc.b	"by DJ Mike "
 		dc.b	"(14.10.2026)",0
 		dc.b	0
@@ -33,7 +33,8 @@
 TRACKSIZE	equ	$1600
 
 _TrackList	
-		TLENTRY	0,159,TRACKSIZE,SYNC_STD,DMFM_STD
+		TLENTRY	0,1,TRACKSIZE,SYNC_STD,DMFM_NULL
+		TLENTRY 2,159,TRACKSIZE,SYNC_STD,DMFM_STD
 		TLEND
 
 _FileList	FLENTRY	_filetable,$2c00,$1800
